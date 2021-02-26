@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -18,6 +19,7 @@ public class UserService {
 
     /*** Customer functions ***/
 
+    @Transactional
     public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
@@ -38,6 +40,7 @@ public class UserService {
 
     /*** Employee functions ***/
 
+    @Transactional
     public Employee saveEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
@@ -50,8 +53,7 @@ public class UserService {
         return employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
     }
 
-
-
+    @Transactional
     public void setEmployeeAvailability(Set<DayOfWeek> daysAvailable, Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
         employee.setDaysAvailable(daysAvailable);
