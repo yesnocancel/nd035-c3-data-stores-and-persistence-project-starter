@@ -3,6 +3,7 @@ package com.udacity.jdnd.course3.critter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.udacity.jdnd.course3.critter.pet.PetController;
+import com.udacity.jdnd.course3.critter.user.UserController;
 import com.udacity.jdnd.course3.critter.pet.PetDTO;
 import com.udacity.jdnd.course3.critter.pet.PetType;
 import com.udacity.jdnd.course3.critter.schedule.ScheduleController;
@@ -30,7 +31,7 @@ import java.util.stream.IntStream;
  * These tests should all pass once the project is complete.
  */
 @Transactional
-@SpringBootTest(classes = CritterApplication.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = CritterApplication.class)
 public class CritterFunctionalTest {
 
     @Autowired
