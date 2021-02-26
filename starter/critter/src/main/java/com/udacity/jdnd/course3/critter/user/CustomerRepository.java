@@ -7,8 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> {
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-    @Query("SELECT c FROM CustomerEntity c, PetEntity p WHERE c.id = p.owner.id AND p.id = :petId")
-    Optional<CustomerEntity> findPetOwner(@Param("petId") Long petId);
+    @Query("SELECT c FROM Customer c, Pet p WHERE c.id = p.customer.id AND p.id = :petId")
+    Optional<Customer> findPetOwner(@Param("petId") Long petId);
 }

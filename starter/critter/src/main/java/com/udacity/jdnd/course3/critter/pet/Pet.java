@@ -1,22 +1,23 @@
 package com.udacity.jdnd.course3.critter.pet;
 
-import com.udacity.jdnd.course3.critter.user.CustomerEntity;
+import com.udacity.jdnd.course3.critter.user.Customer;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
-public class PetEntity {
+public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,16 +25,9 @@ public class PetEntity {
     private PetType type;
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private CustomerEntity owner;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Customer customer;
 
     private LocalDate birthDate;
     private String notes;
-
-    /* Auxiliary methods for DTO conversion */
-
-    public Long getOwnerId() {
-        return owner.getId();
-    }
 }

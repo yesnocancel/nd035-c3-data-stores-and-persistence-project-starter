@@ -1,6 +1,5 @@
 package com.udacity.jdnd.course3.critter.user;
 
-import com.udacity.jdnd.course3.critter.pet.PetNotFoundException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
@@ -19,48 +18,53 @@ public class UserService {
 
     /*** Customer functions ***/
 
-    public CustomerEntity saveCustomer(CustomerEntity customer) {
+    public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 
-    public List<CustomerEntity> findAllCustomers() {
+    public List<Customer> findAllCustomers() {
         return customerRepository.findAll();
     }
 
-    public CustomerEntity findCustomerById(Long id) {
+    public Customer findCustomerById(Long id) {
         return customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
     }
 
-    public CustomerEntity findPetOwner(Long petId) {
-        return customerRepository.findPetOwner(petId).orElseThrow(()
+    public Customer findPetOwner(Long petId) {
+        Customer customer = customerRepository.findPetOwner(petId).orElseThrow(()
                 -> new CustomerNotFoundException("No owner found for pet with ID " + petId));
+        return customer;
     }
 
     /*** Employee functions ***/
 
-    public EmployeeEntity saveEmployee(EmployeeEntity employeeEntity) {
-        return employeeRepository.save(employeeEntity);
+    public Employee saveEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 
-    public EmployeeEntity findEmployeeById(Long id) {
+    public List<Employee> findAllEmployees() {
+        return employeeRepository.findAll();
+    }
+
+    public Employee findEmployeeById(Long id) {
         return employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
     }
 
 
 
     public void setEmployeeAvailability(Set<DayOfWeek> daysAvailable, Long employeeId) {
-        EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
-        employeeEntity.setDaysAvailable(daysAvailable);
-        employeeRepository.save(employeeEntity);
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
+        employee.setDaysAvailable(daysAvailable);
+        employeeRepository.save(employee);
     }
 
-    public List<EmployeeEntity> findSkilledEmployeesForDate(Set<EmployeeSkill> skills, LocalDate date) {
+    public List<Employee> findSkilledEmployeesForDate(Set<EmployeeSkill> skills, LocalDate date) {
         DayOfWeek dayOfWeek = DayOfWeek.from(date);
-        List<EmployeeEntity> availableEmployees = employeeRepository.findAllByDaysAvailable(dayOfWeek);
-        List<EmployeeEntity> skilledEmployees = employeeRepository.findAllBySkillsIn(skills);
+        List<Employee> availableEmployees = employeeRepository.findAllByDaysAvailable(dayOfWeek);
+        List<Employee> skilledEmployees = employeeRepository.findAllBySkills(skills, Long.valueOf(skills.size()));
 
         // Find intersection of the two lists (https://www.baeldung.com/java-lists-intersection)
-        List<EmployeeEntity> result = availableEmployees.stream()
+        List<Employee> result = availableEmployees.stream()
                 .distinct()
                 .filter(skilledEmployees::contains)
                 .collect(Collectors.toList());

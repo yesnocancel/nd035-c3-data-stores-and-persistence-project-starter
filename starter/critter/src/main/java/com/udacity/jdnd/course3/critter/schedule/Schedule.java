@@ -1,33 +1,33 @@
 package com.udacity.jdnd.course3.critter.schedule;
 
-import com.udacity.jdnd.course3.critter.pet.PetEntity;
-import com.udacity.jdnd.course3.critter.user.EmployeeEntity;
+import com.udacity.jdnd.course3.critter.pet.Pet;
+import com.udacity.jdnd.course3.critter.user.Employee;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
-public class ScheduleEntity {
+public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany
-    private List<EmployeeEntity> employees;
+    @ManyToMany
+    private List<Employee> employees;
 
-    @OneToMany
-    private List<PetEntity> pets;
+    @ManyToMany
+    private List<Pet> pets;
 
     private LocalDate date;
 
